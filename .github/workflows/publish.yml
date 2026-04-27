@@ -1,5 +1,8 @@
 name: Publish
 
+permissions:
+  contents: write
+
 on:
   release:
     types: [created]
@@ -27,6 +30,8 @@ jobs:
   publish:
     needs: test
     runs-on: ubuntu-latest
+    env:
+      VSIX_NAME: acp-client-whatnick-${{ github.ref_name }}.vsix
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -35,25 +40,46 @@ jobs:
           cache: npm
       - run: npm ci
 
+      - name: Detect publish credentials
+        id: publish-creds
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: |
+          if [ -n "$VSCE_PAT" ]; then
+            echo "vsce=true" >> "$GITHUB_OUTPUT"
+          fi
+          if [ -n "$OVSX_PAT" ]; then
+            echo "ovsx=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Package VSIX
-        run: npx vsce package -o extension.vsix
+        run: npx vsce package -o "$VSIX_NAME"
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.VSIX_NAME }}
+          path: ${{ env.VSIX_NAME }}
 
       - name: Publish to Visual Studio Marketplace
+        if: steps.publish-creds.outputs.vsce == 'true'
         uses: HaaLeo/publish-vscode-extension@v2
         with:
           pat: ${{ secrets.VSCE_PAT }}
           registryUrl: https://marketplace.visualstudio.com
-          extensionFile: extension.vsix
+          extensionFile: ${{ env.VSIX_NAME }}
 
       - name: Publish to Open VSX Registry
+        if: steps.publish-creds.outputs.ovsx == 'true'
         uses: HaaLeo/publish-vscode-extension@v2
         with:
           pat: ${{ secrets.OVSX_PAT }}
           registryUrl: https://open-vsx.org
-          extensionFile: extension.vsix
+          extensionFile: ${{ env.VSIX_NAME }}
 
       - name: Upload VSIX as release asset
         if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
-          files: extension.vsix
+          files: ${{ env.VSIX_NAME }}

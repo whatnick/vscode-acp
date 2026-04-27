@@ -3,17 +3,16 @@
   "displayName": "ACP Client",
   "description": "Agent Client Protocol client for VS Code — connect to GitHub Copilot, Claude Code, Gemini CLI, Qwen Code, Codex CLI, OpenCode, OpenClaw, Kiro CLI, Hermes Agent, and any ACP-compatible AI coding agent",
   "version": "0.1.6",
-  "publisher": "formulahendry",
+  "publisher": "whatnick",
   "license": "MIT",
   "icon": "resources/icon.png",
   "bugs": {
-    "url": "https://github.com/formulahendry/vscode-acp/issues",
-    "email": "formulahendry@gmail.com"
+    "url": "https://github.com/whatnick/vscode-acp/issues"
   },
-  "homepage": "https://github.com/formulahendry/vscode-acp/blob/main/README.md",
+  "homepage": "https://github.com/whatnick/vscode-acp/blob/whatnick-main/README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/formulahendry/vscode-acp.git"
+    "url": "https://github.com/whatnick/vscode-acp.git"
   },
   "engines": {
     "vscode": "^1.85.0"

@@ -1,6 +1,6 @@
 # ACP Client for VS Code
 
-A [Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=formulahendry.acp-client) that provides a client for the [Agent Client Protocol (ACP)](https://agentclientprotocol.com/) — connect to any ACP-compatible AI coding agent directly from your editor.
+A [Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=whatnick.acp-client) that provides a client for the [Agent Client Protocol (ACP)](https://agentclientprotocol.com/) — connect to any ACP-compatible AI coding agent directly from your editor.
 
 ![ACP Client Screenshot](resources/screenshot.png)
 
@@ -21,7 +21,7 @@ A [Visual Studio Code extension](https://marketplace.visualstudio.com/items?item
 
 ## Quick Start
 
-1. Install: [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=formulahendry.acp-client) | [Open in VS Code](https://vscode.dev/redirect?url=vscode%3Aextension%2Fformulahendry.acp-client) | [Open VSX Marketplace](https://open-vsx.org/extension/formulahendry/acp-client)
+1. Install: [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=whatnick.acp-client) | [Open in VS Code](https://vscode.dev/redirect?url=vscode%3Aextension%2Fwhatnick.acp-client) | [Open VSX Marketplace](https://open-vsx.org/extension/whatnick/acp-client)
 2. Open the ACP Client panel from the Activity Bar (ACP icon)
 3. Click **+** to add an agent configuration, or use the defaults
 4. Click an agent to connect
@@ -101,7 +101,7 @@ All commands are accessible via the Command Palette (`Ctrl+Shift+P`):
 ### Setup
 
 ```bash
-git clone https://github.com/formulahendry/vscode-acp.git
+git clone https://github.com/whatnick/vscode-acp.git
 cd vscode-acp
 npm install
 ```
@@ -149,9 +149,9 @@ Communication with agents uses the ACP protocol (JSON-RPC 2.0 over stdio).
 
 ## Links
 
-- [ACP Client on Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=formulahendry.acp-client)
+- [ACP Client on Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=whatnick.acp-client)
 - [Agent Client Protocol](https://agentclientprotocol.com/)
-- [GitHub Repository](https://github.com/formulahendry/vscode-acp)
+- [GitHub Repository](https://github.com/whatnick/vscode-acp)
 
 ## Related Projects
 

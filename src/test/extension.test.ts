@@ -1,15 +1,19 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 
+function getExtension() {
+	return vscode.extensions.all.find(extension => extension.packageJSON.name === 'acp-client');
+}
+
 suite('Extension Test Suite', () => {
 	vscode.window.showInformationMessage('Start all tests.');
 
 	test('Extension should be present', () => {
-		assert.ok(vscode.extensions.getExtension('formulahendry.acp-client'));
+		assert.ok(getExtension());
 	});
 
 	test('Should activate extension', async () => {
-		const ext = vscode.extensions.getExtension('formulahendry.acp-client');
+		const ext = getExtension();
 		assert.ok(ext);
 		await ext.activate();
 		assert.strictEqual(ext.isActive, true);
