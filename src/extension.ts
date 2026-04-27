@@ -411,7 +411,7 @@ export function activate(context: vscode.ExtensionContext): void {
     },
   );
 
-  sendEvent('extension/activated', { version: vscode.extensions.getExtension('formulahendry.acp-client')?.packageJSON?.version ?? 'unknown' });
+  sendEvent('extension/activated', { version: vscode.extensions.getExtension('whatnick.acp-client-whatnick')?.packageJSON?.version ?? 'unknown' });
   log('ACP Client extension activated.');
 }
 

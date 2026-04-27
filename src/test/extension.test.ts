@@ -6,7 +6,7 @@ import * as vscode from 'vscode';
 import { redactSensitive, validatePath } from '../security/SecurityPolicy';
 
 function getExtension() {
-	return vscode.extensions.all.find(extension => extension.packageJSON.name === 'acp-client');
+	return vscode.extensions.all.find(extension => extension.packageJSON.name === 'acp-client-whatnick');
 }
 
 suite('Extension Test Suite', () => {
