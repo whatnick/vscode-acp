@@ -15,7 +15,6 @@ import type {
 } from '@agentclientprotocol/sdk';
 
 import { spawn, ChildProcess } from 'node:child_process';
-import { validatePath, filterEnv } from '../security/SecurityPolicy';
 
 interface ManagedTerminal {
   id: string;
@@ -38,31 +37,23 @@ export class TerminalHandler {
   private terminals: Map<string, ManagedTerminal> = new Map();
   private nextId = 1;
 
-  constructor(private readonly workspaceRoot: string) {}
-
   async createTerminal(params: CreateTerminalRequest): Promise<CreateTerminalResponse> {
     const terminalId = `term_${this.nextId++}`;
     const outputByteLimit = params.outputByteLimit ?? 1024 * 1024; // 1MB default
 
     log(`createTerminal: ${params.command} ${(params.args || []).join(' ')} (id=${terminalId})`);
 
-    const cwd = params.cwd
-      ? validatePath(params.cwd, this.workspaceRoot)
-      : this.workspaceRoot;
-
     const env: Record<string, string> = { ...process.env } as Record<string, string>;
     if (params.env) {
-      const agentEnv: Record<string, string> = {};
       for (const v of params.env) {
-        agentEnv[v.name] = v.value;
+        env[v.name] = v.value;
       }
-      Object.assign(env, filterEnv(agentEnv));
     }
 
     const child = spawn(params.command, params.args || [], {
-      cwd,
+      cwd: params.cwd || undefined,
       env,
-      shell: false,
+      shell: true,
       stdio: ['pipe', 'pipe', 'pipe'],
     });
 

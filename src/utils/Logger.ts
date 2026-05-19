@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import { redactSensitive } from '../security/SecurityPolicy';
 
 let _outputChannel: vscode.OutputChannel | undefined;
 let _trafficChannel: vscode.OutputChannel | undefined;
@@ -35,16 +34,15 @@ export function logError(message: string, error?: unknown): void {
   }
 }
 
-const MAX_TRAFFIC_PAYLOAD = 2048;
-
 export function logTraffic(direction: 'send' | 'recv', data: unknown): void {
   const config = vscode.workspace.getConfiguration('acp');
-  if (!config.get<boolean>('logTraffic', false)) {
+  if (!config.get<boolean>('logTraffic', true)) {
     return;
   }
   const arrow = direction === 'send' ? '>>> CLIENT → AGENT' : '<<< AGENT → CLIENT';
   const timestamp = new Date().toISOString();
 
+  // Classify message type
   const msg = data as Record<string, unknown> | null;
   let label = '';
   if (msg && typeof msg === 'object') {
@@ -57,14 +55,8 @@ export function logTraffic(direction: 'send' | 'recv', data: unknown): void {
     }
   }
 
-  let payload = JSON.stringify(data, null, 2);
-  if (payload.length > MAX_TRAFFIC_PAYLOAD) {
-    payload = payload.substring(0, MAX_TRAFFIC_PAYLOAD) + `\n... [truncated, ${payload.length} bytes total]`;
-  }
-  payload = redactSensitive(payload);
-
   getTrafficChannel().appendLine(
-    `[${timestamp}] ${arrow}${label}\n${payload}\n`
+    `[${timestamp}] ${arrow}${label}\n${JSON.stringify(data, null, 2)}\n`
   );
 }
 
